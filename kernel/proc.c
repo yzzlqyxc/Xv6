@@ -685,7 +685,7 @@ procdump(void)
   }
 }
 
-uint64 count_unused_porc(void)
+uint64 count_used_proc(void)
 {
   uint64 cnt = 0;
   struct proc *p;

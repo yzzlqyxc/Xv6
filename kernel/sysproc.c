@@ -7,7 +7,7 @@
 #include "proc.h"
 #include "sysinfo.h"
 uint64 count_free_mem();
-uint64 count_unused_porc(void);
+uint64 count_used_proc(void);
 uint64
 sys_exit(void)
 {
@@ -110,7 +110,7 @@ sys_sysinfo(void)
   struct sysinfo info = {0, 0};
   struct proc *p = myproc();
 
-  info.nproc = count_unused_porc(); 
+  info.nproc = count_used_proc(); 
   info.freemem = count_free_mem();
   uint64 n;
   argaddr(0, &n);
