@@ -1,0 +1,10 @@
+{
+  "makefile.launchConfigurations": [
+    {
+      "cwd": "/home/yzzlqyxc/OS/xv6-labs-2022/kernel",
+      "binaryPath": "/home/yzzlqyxc/OS/xv6-labs-2022/kernel/kernel",
+      "binaryArgs": []
+    }
+  ],
+  "C_Cpp.errorSquiggles": "Disabled"
+}
