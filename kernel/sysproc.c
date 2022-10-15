@@ -75,6 +75,12 @@ int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
+  uint64 buf, abits, check_cnt;
+  int tempbit = 0;
+  buf = argaddr();
+  check_cnt = arg
+
+
   return 0;
 }
 #endif
