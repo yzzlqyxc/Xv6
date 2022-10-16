@@ -75,12 +75,24 @@ int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
-  uint64 buf, abits, check_cnt;
-  int tempbit = 0;
-  buf = argaddr();
-  check_cnt = arg
+  uint64 buf, abits;
+  int tempbit = 0, check_cnt;
 
+  pagetable_t table = myproc()->pagetable;
+  argaddr(0, &buf);
+  argint(1, &check_cnt);
+  argaddr(2, &abits);
 
+  for(int i = 0; i < check_cnt; i ++ ) {
+    pte_t* pte = walk(table, buf, 0);
+    if((*pte) & PTE_A) {
+      tempbit |= 1 << i;
+      *pte ^= PTE_A;  
+    }
+
+    buf += PGSIZE;
+  }
+  copyout(table, abits, (char*)&tempbit, sizeof(tempbit));
   return 0;
 }
 #endif
