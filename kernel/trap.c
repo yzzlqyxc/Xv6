@@ -49,6 +49,16 @@ usertrap(void)
   
   // save user program counter.
   p->trapframe->epc = r_sepc();
+
+  // ---------------modify
+  if(p->inteval > 0)
+    p->timeleft ++ ;
+
+  if((p->timeleft == p->inteval) && (p->timeleft > 0)) {
+    p->timeleft = 0;
+    p->before_pc = p->trapframe->epc;
+    p->trapframe->epc = p->signal_func;
+  }
   
   if(r_scause() == 8){
     // system call

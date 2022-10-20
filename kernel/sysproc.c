@@ -91,3 +91,26 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_sigalarm(void) 
+{
+  struct proc *p = myproc();
+  int interval; 
+  uint64 function;
+  argint(0, &(interval));
+  argaddr(1, &(function));
+  printf("%d %p\n", interval, function);
+  p->inteval = interval;
+  p->signal_func = function;
+
+  return 0;
+}
+
+uint64
+sys_sigreturn(void) 
+{
+  // struct proc *p = myproc();
+  // p->trapframe->epc = p->before_pc;
+  return 0;
+}
