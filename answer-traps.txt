@@ -1,0 +1,6 @@
+a2
+f : 26   g : 14
+ra + 1536
+665
+Hello World ; 726c6400 no
+8229, the printf try to access data in a2, but we didnt put a varibel in that function 
