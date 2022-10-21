@@ -50,15 +50,7 @@ usertrap(void)
   // save user program counter.
   p->trapframe->epc = r_sepc();
 
-  // ---------------modify
-  if(p->inteval > 0)
-    p->timeleft ++ ;
 
-  if((p->timeleft == p->inteval) && (p->timeleft > 0)) {
-    p->timeleft = 0;
-    p->before_pc = p->trapframe->epc;
-    p->trapframe->epc = p->signal_func;
-  }
   
   if(r_scause() == 8){
     // system call
@@ -69,13 +61,23 @@ usertrap(void)
     // sepc points to the ecall instruction,
     // but we want to return to the next instruction.
     p->trapframe->epc += 4;
-
     // an interrupt will change sepc, scause, and sstatus,
     // so enable only now that we're done with those registers.
     intr_on();
 
     syscall();
   } else if((which_dev = devintr()) != 0){
+    if(which_dev == 2) {
+      if(p->inteval > 0)
+        p->timeleft ++ ;
+
+      if((p->timeleft == p->inteval) && (p->timeleft > 0) && (p->inteval > 0) && (p->flag == 0)) {
+        p->before_pc = p->trapframe->epc;
+        *p->before_trapframe = *p->trapframe;
+        p->trapframe->epc = p->signal_func;
+        p->flag = 1;
+      }
+    }
     // ok
   } else {
     printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
@@ -89,6 +91,7 @@ usertrap(void)
   // give up the CPU if this is a timer interrupt.
   if(which_dev == 2)
     yield();
+
 
   usertrapret();
 }

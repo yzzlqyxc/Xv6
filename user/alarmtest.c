@@ -31,7 +31,6 @@ main(int argc, char *argv[])
 }
 
 volatile static int count;
-
 void
 periodic()
 {

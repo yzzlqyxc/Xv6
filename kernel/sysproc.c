@@ -96,11 +96,12 @@ uint64
 sys_sigalarm(void) 
 {
   struct proc *p = myproc();
+
   int interval; 
   uint64 function;
   argint(0, &(interval));
+
   argaddr(1, &(function));
-  printf("%d %p\n", interval, function);
   p->inteval = interval;
   p->signal_func = function;
 
@@ -110,7 +111,11 @@ sys_sigalarm(void)
 uint64
 sys_sigreturn(void) 
 {
-  // struct proc *p = myproc();
-  // p->trapframe->epc = p->before_pc;
-  return 0;
+  struct proc *p = myproc();
+
+  p->timeleft = 0;
+  p->flag = 0;
+  *p->trapframe = *p->before_trapframe;
+  
+  return p->trapframe->a0;
 }

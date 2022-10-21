@@ -100,6 +100,8 @@ struct proc {
   uint64 signal_func;
   uint64 timeleft;
   uint64 before_pc;
+  int flag; // check wether the proccess is running in the signal_func
+  struct trapframe *before_trapframe; // data page for trampoline.S
 
   // these are private to the process, so p->lock need not be held.
   uint64 kstack;               // Virtual address of kernel stack
