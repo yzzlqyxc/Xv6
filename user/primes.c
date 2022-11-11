@@ -35,7 +35,6 @@ void check_prime(int *p, int n) {
 		// create an prime checker
 		check_prime(p_c, n + 1);
 	}
-	wait(0);
 	exit(0);
 }
 
@@ -46,13 +45,11 @@ main(int argc, char *argv[])
 	pipe(p);
 	int pid = fork();
 	if(pid) {
-		int status;
 		close(p[0]);
 		for(int i = 2; i <= 35; i ++ ) {
 			write(p[1], &i, sizeof(int));
 		}
 		close(p[1]);
-		while(wait(&status) >= 0);
 	}
 	else {
 		check_prime(p, 0);
